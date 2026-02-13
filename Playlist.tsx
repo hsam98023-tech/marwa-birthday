@@ -1,42 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Music, Play } from 'lucide-react';
+import { Music, Play, Pause } from 'lucide-react';
 
 const songs = [
-  { title: "Happy Birthday", artist: "Traditional", duration: "2:10" },
-  { title: "Life with You", artist: "Cinematic", duration: "3:45" },
-  { title: "Moments", artist: "Acoustic", duration: "2:55" }
+  { 
+    title: "Basrah w Atoh", 
+    artist: "Cairokee", 
+    url: "https://res.cloudinary.com/dyvktulzd/video/upload/v1770981368/Cairokee_-Basrah_w_Atoh%D9%83%D8%A7%D9%8A%D8%B1%D9%88%D9%83%D9%8I_-%D8%A8%D8%B3%D8%B1%D8%AD%D9%88%D8%A7%D8%AA%D9%88%D9%87_MP3_70K_wvznzt.mp3" 
+  },
+  { 
+    title: "Impossible", 
+    artist: "James Arthur", 
+    url: "https://res.cloudinary.com/dyvktulzd/video/upload/v1770981367/James_Arthur_-Impossible_Lyrics_MP3_70K_riogqs.mp3"
+  },
+  { 
+    title: "Sweater Weather", 
+    artist: "The Neighbourhood", 
+    url: "https://res.cloudinary.com/dyvktulzd/video/upload/v1770981368/The_Neighbourhood-_Sweater_Weather_Lyrics_MP3_70K_iegxp6.mp3"
+  }
 ];
 
 const Playlist: React.FC = () => {
+  const [playingUrl, setPlayingUrl] = useState<string | null>(null);
+  const [audio] = useState(new Audio());
+
+  const togglePlay = (url: string) => {
+    if (playingUrl === url) {
+      audio.pause();
+      setPlayingUrl(null);
+    } else {
+      audio.src = url;
+      audio.play();
+      setPlayingUrl(url);
+    }
+  };
+
   return (
-    <div className="w-full space-y-3">
+    <div className="w-full space-y-3 p-4 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl">
       {songs.map((song, index) => (
         <motion.div
           key={index}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: index * 0.1 }}
-          className="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors group cursor-pointer"
+          whileHover={{ scale: 1.02, backgroundColor: "rgba(234, 179, 8, 0.1)" }}
+          onClick={() => togglePlay(song.url)}
+          className="flex items-center justify-between p-4 rounded-xl cursor-pointer transition-all border border-transparent hover:border-gold-500/30 group"
         >
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded bg-gold-500/20 flex items-center justify-center text-gold-500">
-              <Music size={14} />
+          <div className="flex items-center gap-4">
+            <div className="text-gold-500">
+              {playingUrl === song.url ? <Pause size={20} className="animate-pulse" /> : <Play size={20} />}
             </div>
             <div className="text-left">
-              <p className="text-sm font-medium text-slate-200 group-hover:text-gold-400 transition-colors">{song.title}</p>
-              <p className="text-[10px] text-slate-500 uppercase tracking-widest">{song.artist}</p>
+              <p className="text-sm font-bold text-white tracking-wide">{song.title}</p>
+              <p className="text-[10px] text-slate-400 uppercase tracking-[0.2em]">{song.artist}</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-[10px] text-slate-600 font-mono">{song.duration}</span>
-            <Play size={12} className="text-gold-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-          </div>
+          <Music size={16} className="text-slate-600 group-hover:text-gold-500 transition-colors" />
         </motion.div>
       ))}
     </div>
   );
 };
 
-// هاد السطر هو اللي كيحيد الخطأ ديال LoginScene
 export default Playlist;
