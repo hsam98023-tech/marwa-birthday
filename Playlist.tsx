@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Music, Play, Pause } from 'lucide-react';
 
@@ -6,7 +6,7 @@ const songs = [
   { 
     title: "Basrah w Atoh", 
     artist: "Cairokee", 
-    url: "https://res.cloudinary.com/dyvktulzd/video/upload/v1770981368/Cairokee_-Basrah_w_Atoh%D9%83%D8%A7%D9%8A%D8%B1%D9%88%D9%83%D9%8I_-%D8%A8%D8%B3%D8%B1%D8%AD%D9%88%D8%A7%D8%AA%D9%88%D9%87_MP3_70K_wvznzt.mp3" 
+    url: "https://res.cloudinary.com/dyvktulzd/video/upload/v1770981368/Cairokee_-Basrah_w_Atoh%D9%83%D8%A7%D9%8A%D8%B1%D9%88%D9%83%D9%8I_-%D8%A8%D8%B3%D8%B1%D8%AD%D9%88%D8%A7%D8%AT%D9%88%D9%87_MP3_70K_wvznzt.mp3" 
   },
   { 
     title: "Impossible", 
@@ -22,15 +22,25 @@ const songs = [
 
 const Playlist: React.FC = () => {
   const [playingUrl, setPlayingUrl] = useState<string | null>(null);
-  const [audio] = useState(new Audio());
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    audioRef.current = new Audio();
+    return () => {
+      audioRef.current?.pause();
+      audioRef.current = null;
+    };
+  }, []);
 
   const togglePlay = (url: string) => {
+    if (!audioRef.current) return;
+
     if (playingUrl === url) {
-      audio.pause();
+      audioRef.current.pause();
       setPlayingUrl(null);
     } else {
-      audio.src = url;
-      audio.play();
+      audioRef.current.src = url;
+      audioRef.current.play().catch(e => console.error("Error playing audio:", e));
       setPlayingUrl(url);
     }
   };
