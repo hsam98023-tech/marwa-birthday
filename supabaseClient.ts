@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-client'
+t { createClient } from '@supabase/supabase-client'
 
 export const supabase = createClient(
   'https://wzlkkbitespgurpnçamy.supabase.co',
