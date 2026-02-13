@@ -6,17 +6,17 @@ const songs = [
   { 
     title: "Basrah w Atoh", 
     artist: "Cairokee", 
-    url: "https://res.cloudinary.com/dyvktulzd/video/upload/v1770981368/Cairokee_-Basrah_w_Atoh%D9%83%D8%A7%D9%8A%D8%B1%D9%88%D9%83%D9%8I_-%D8%A8%D8%B3%D8%B1%D8%AD%D9%88%D8%A7%D8%AT%D9%88%D9%87_MP3_70K_wvznzt.mp3" 
+    url: "https://files.catbox.moe/4d7ba7.mp3" 
   },
   { 
     title: "Impossible", 
     artist: "James Arthur", 
-    url: "https://res.cloudinary.com/dyvktulzd/video/upload/v1770981367/James_Arthur_-Impossible_Lyrics_MP3_70K_riogqs.mp3"
+    url: "https://files.catbox.moe/wkvb03.mp3"
   },
   { 
     title: "Sweater Weather", 
     artist: "The Neighbourhood", 
-    url: "https://res.cloudinary.com/dyvktulzd/video/upload/v1770981368/The_Neighbourhood-_Sweater_Weather_Lyrics_MP3_70K_iegxp6.mp3"
+    url: "https://files.catbox.moe/kmfwkf.mp3"
   }
 ];
 
@@ -40,7 +40,7 @@ const Playlist: React.FC = () => {
       setPlayingUrl(null);
     } else {
       audioRef.current.src = url;
-      audioRef.current.play().catch(e => console.error("Error playing audio:", e));
+      audioRef.current.play().catch(e => console.error("Audio error:", e));
       setPlayingUrl(url);
     }
   };
@@ -50,7 +50,7 @@ const Playlist: React.FC = () => {
       {songs.map((song, index) => (
         <motion.div
           key={index}
-          whileHover={{ scale: 1.02, backgroundColor: "rgba(234, 179, 8, 0.1)" }}
+          whileHover={{ backgroundColor: "rgba(234, 179, 8, 0.1)" }}
           onClick={() => togglePlay(song.url)}
           className="flex items-center justify-between p-4 rounded-xl cursor-pointer transition-all border border-transparent hover:border-gold-500/30 group"
         >
