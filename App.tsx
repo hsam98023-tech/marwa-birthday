@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Scene } from './types';
-import { Background } from './components/Background';
-import { LoginScene } from './components/LoginScene';
-import { CountdownScene } from './components/CountdownScene';
-import { CakeScene } from './components/CakeScene';
-import { CelebrationScene } from './components/CelebrationScene';
-import { ThemeProvider } from './contexts/ThemeContext';
-import { ThemeToggle } from './components/ThemeToggle';
+// حيدنا كلمة components/ من كاع المسارات حيت الملفات عندك برا نيشان
+import Background from './Background';
+import LoginScene from './LoginScene';
+import CountdownScene from './CountdownScene';
+import CakeScene from './CakeScene';
+import CelebrationScene from './CelebrationScene';
+import { ThemeProvider } from './ThemeContext'; // تأكد أن هاد الملف سميتو هكا برا
+import ThemeToggle from './ThemeToggle';
 
 const AppContent: React.FC = () => {
   const [scene, setScene] = useState<Scene>(Scene.LOGIN);
