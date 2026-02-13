@@ -9,14 +9,17 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+// غانخليو هادي Named Export ولكن غانزيدو Default Export لتحت باش App.tsx ما يغلطش
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
     // Check localStorage first
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-      return savedTheme;
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        return savedTheme;
+      }
     }
-    // Default to dark
+    // Default to dark for cinematic look
     return 'dark';
   });
 
@@ -45,3 +48,6 @@ export const useTheme = () => {
   }
   return context;
 };
+
+// هاد السطر هو اللي كان ناقص باش يتوافق مع import ThemeProvider from './ThemeContext'
+export default ThemeProvider; 
