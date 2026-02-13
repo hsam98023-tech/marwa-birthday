@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 
+// تأكد أنك حطيتي Playlist.tsx برا حتى هو باش يخدم هاد السطر
+import Playlist from './Playlist'; 
+
 interface LoginSceneProps {
   onSuccess: () => void;
 }
@@ -31,7 +34,7 @@ const itemVariants: Variants = {
   }
 };
 
-export const LoginScene: React.FC<LoginSceneProps> = ({ onSuccess }) => {
+const LoginScene: React.FC<LoginSceneProps> = ({ onSuccess }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
@@ -42,7 +45,6 @@ export const LoginScene: React.FC<LoginSceneProps> = ({ onSuccess }) => {
       onSuccess();
     } else {
       setError(true);
-      // Reset error after animation
       setTimeout(() => setError(false), 500);
     }
   };
@@ -104,7 +106,15 @@ export const LoginScene: React.FC<LoginSceneProps> = ({ onSuccess }) => {
             </motion.button>
           </motion.div>
         </form>
+
+        {/* إضافة قائمة الأغاني هنا كما طلبت سابقاً */}
+        <motion.div variants={itemVariants} className="mt-10">
+           <Playlist />
+        </motion.div>
       </div>
     </motion.div>
   );
 };
+
+export default LoginScene; // ضروري يكون export default
+
