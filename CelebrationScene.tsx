@@ -14,13 +14,14 @@ const CelebrationScene: React.FC = () => {
   // جلب الرسائل من الداتا بيز عند تحميل الصفحة
   useEffect(() => {
     const fetchWishes = async () => {
+      // تعديل اسم الجدول ليطابق Supabase
       const { data, error } = await supabase
-        .from('wishes') // تأكد أن اسم الجدول wishes أو غيره لـ 'Marwa happy birthday' حسب Supabase
+        .from('Marwa happy birthday') 
         .select('*')
         .order('created_at', { ascending: false });
       
       if (data) setSubmittedWishes(data);
-      if (error) console.error("Error fetching:", error);
+      if (error) console.error("Error fetching wishes:", error.message);
     };
     fetchWishes();
   }, []);
@@ -30,9 +31,9 @@ const CelebrationScene: React.FC = () => {
     if (!wish.trim()) return;
 
     setIsSending(true);
-    // تعديل الأسماء هنا لتطابق الخانات في Supabase: sender_name و Message
+    // تعديل أسماء الأعمدة لتطابق Supabase: sender_name و Message
     const { data, error } = await supabase
-      .from('wishes')
+      .from('Marwa happy birthday')
       .insert([{ 
         sender_name: name || 'Anonymous', 
         Message: wish 
@@ -45,7 +46,7 @@ const CelebrationScene: React.FC = () => {
       setName('');
       confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
     } else {
-      console.error("Error sending:", error);
+      console.error("Error sending wish:", error?.message);
     }
     setIsSending(false);
   };
@@ -62,7 +63,7 @@ const CelebrationScene: React.FC = () => {
           <TimeSinceCounter />
         </div>
 
-        {/* خانة الرسائل بستايل Glassmorphism */}
+        {/* خانة الرسائل بستايل Glassmorphism المعزز */}
         <motion.div 
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -94,7 +95,7 @@ const CelebrationScene: React.FC = () => {
           </form>
         </motion.div>
 
-        {/* عرض الرسائل المكتوبة (Feed) مع تعديل المتغيرات */}
+        {/* عرض الرسائل المكتوبة (Feed) مع مطابقة متغيرات الداتا بيز */}
         <div className="space-y-6 text-left max-h-[500px] overflow-y-auto custom-scrollbar pr-2">
           <AnimatePresence>
             {submittedWishes.map((w, i) => (
@@ -104,8 +105,12 @@ const CelebrationScene: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border-l-4 border-gold-500 shadow-lg"
               >
-                <p className="text-gold-500 text-xs font-bold uppercase tracking-widest mb-2">{w.sender_name}</p>
-                <p className="text-slate-200 font-serif italic text-lg leading-relaxed">"{w.Message}"</p>
+                <p className="text-gold-500 text-xs font-bold uppercase tracking-widest mb-2">
+                  {w.sender_name || 'Anonymous'}
+                </p>
+                <p className="text-slate-200 font-serif italic text-lg leading-relaxed">
+                  "{w.Message}"
+                </p>
               </motion.div>
             ))}
           </AnimatePresence>
