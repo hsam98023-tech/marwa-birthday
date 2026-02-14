@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Analytics } from '@vercel/analytics/react';
 import { Scene } from './types';
 // حيدنا كلمة components/ من كاع المسارات حيت الملفات عندك برا نيشان
 import Background from './Background';
@@ -56,6 +57,7 @@ const App: React.FC = () => {
   return (
     <ThemeProvider>
       <AppContent />
+      <Analytics />
     </ThemeProvider>
   );
 };
